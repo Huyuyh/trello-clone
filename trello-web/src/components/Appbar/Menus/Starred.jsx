@@ -1,24 +1,18 @@
-import { useState } from "react";
+import Check from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Check from "@mui/icons-material/Check";
 
+import { useAnchor } from "@/hooks/useAnchor";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Starred() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { open, anchorEl, openMenu, closeMenu } = useAnchor();
+
   return (
     <Box>
       <Button
@@ -26,7 +20,7 @@ function Starred() {
         aria-controls={open ? "basic-menu-starred" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={openMenu}
         endIcon={<ExpandMoreIcon />}
       >
         Starred
@@ -35,7 +29,7 @@ function Starred() {
         id="basic-menu-starred"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
         slotProps={{
           list: {
             "aria-labelledby": "basic-button-starred",

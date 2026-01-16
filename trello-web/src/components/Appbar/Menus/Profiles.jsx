@@ -9,23 +9,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 
+import { useAnchor } from "@/hooks/useAnchor";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
 
 function Profiles() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { open, anchorEl, openMenu, closeMenu } = useAnchor();
+
   return (
     <Box>
       <Tooltip title="Profile">
         <IconButton
-          onClick={handleClick}
+          onClick={openMenu}
           size="small"
           sx={{ padding: 0 }}
           aria-controls={open ? "basic-menu-profile" : undefined}
@@ -40,33 +34,33 @@ function Profiles() {
         id="basic-menu-profile"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
         slotProps={{
           list: {
             "aria-labelledby": "basic-button-profile",
           },
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={closeMenu}>
           <Avatar sx={{ width: 28, height: 28, mr: 2 }} /> Profile
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={closeMenu}>
           <Avatar sx={{ width: 28, height: 28, mr: 2 }} /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={closeMenu}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Add another account
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={closeMenu}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={closeMenu}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

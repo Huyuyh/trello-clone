@@ -1,27 +1,21 @@
-import { useState } from "react";
+import { useAnchor } from "@/hooks/useAnchor";
+import Cloud from "@mui/icons-material/Cloud";
+import ContentCopy from "@mui/icons-material/ContentCopy";
+import ContentCut from "@mui/icons-material/ContentCut";
+import ContentPaste from "@mui/icons-material/ContentPaste";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
-import ContentCut from "@mui/icons-material/ContentCut";
-import ContentCopy from "@mui/icons-material/ContentCopy";
-import ContentPaste from "@mui/icons-material/ContentPaste";
-import Cloud from "@mui/icons-material/Cloud";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function Workspaces() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { open, anchorEl, openMenu, closeMenu } = useAnchor();
+
   return (
     <Box>
       <Button
@@ -29,7 +23,7 @@ function Workspaces() {
         aria-controls={open ? "basic-menu-workspaces" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={openMenu}
         endIcon={<ExpandMoreIcon />}
       >
         Workspaces
@@ -38,7 +32,7 @@ function Workspaces() {
         id="basic-menu-workspaces"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
         slotProps={{
           list: {
             "aria-labelledby": "basic-button-workspaces",

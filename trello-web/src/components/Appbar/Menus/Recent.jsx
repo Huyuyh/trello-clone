@@ -1,23 +1,17 @@
-import { useState } from "react";
+import { useAnchor } from "@/hooks/useAnchor";
+import Check from "@mui/icons-material/Check";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Check from "@mui/icons-material/Check";
 
 function Recent() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { open, anchorEl, openMenu, closeMenu } = useAnchor();
+
   return (
     <Box>
       <Button
@@ -25,7 +19,7 @@ function Recent() {
         aria-controls={open ? "basic-menu-recent" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={openMenu}
         endIcon={<ExpandMoreIcon />}
       >
         Recent
@@ -34,7 +28,7 @@ function Recent() {
         id="basic-menu-recent"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
         slotProps={{
           list: {
             "aria-labelledby": "basic-button-recent",

@@ -1,4 +1,6 @@
 import TrelloIcon from "@/assets/trello.svg?react";
+import AppDrawer from "@/components/AppBar/Drawer/AppDrawer";
+
 import Profiles from "@/components/AppBar/Menus/Profiles";
 import Recent from "@/components/AppBar/Menus/Recent";
 import Starred from "@/components/AppBar/Menus/Starred";
@@ -11,11 +13,18 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import SvgIcon from "@mui/material/SvgIcon";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
 
 function AppBar() {
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
   return (
     <Box
       px={2}
@@ -24,8 +33,11 @@ function AppBar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: 2,
+        overflowX: "auto",
       }}
     >
+      <AppDrawer open={open} toggleDrawer={toggleDrawer} />
       <Box
         sx={{
           display: "flex",
@@ -33,11 +45,19 @@ function AppBar() {
           gap: 2,
         }}
       >
-        <AppsIcon
-          sx={{
-            color: "primary.main",
-          }}
-        />
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={toggleDrawer(!open)}
+        >
+          <AppsIcon
+            sx={{
+              color: "primary.main",
+            }}
+          />
+        </IconButton>
+
         <Box
           sx={{
             display: "flex",
@@ -62,11 +82,22 @@ function AppBar() {
             Trello
           </Typography>
         </Box>
-        <Workspaces />
-        <Recent />
-        <Starred />
-        <Templates />
-        <Button variant="outlined">Create</Button>
+
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              md: "flex",
+            },
+            gap: 1,
+          }}
+        >
+          <Workspaces />
+          <Recent />
+          <Starred />
+          <Templates />
+          <Button variant="outlined">Create</Button>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -80,14 +111,25 @@ function AppBar() {
           label="Search..."
           type="search"
           size="small"
+          sx={{
+            minWidth: "120px",
+          }}
         />
 
         <ModeSelect />
         <Badge color="secondary" variant="dot" sx={{ cursor: "pointer" }}>
-          <NotificationsNoneOutlinedIcon />
+          <NotificationsNoneOutlinedIcon
+            sx={{
+              color: "primary.main",
+            }}
+          />
         </Badge>
         <Badge color="secondary" sx={{ cursor: "pointer" }}>
-          <HelpOutlineOutlinedIcon />
+          <HelpOutlineOutlinedIcon
+            sx={{
+              color: "primary.main",
+            }}
+          />
         </Badge>
         <Profiles />
       </Box>
