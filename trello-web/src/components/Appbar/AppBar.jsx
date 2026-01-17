@@ -5,7 +5,7 @@ import Recent from "@/components/AppBar/Menus/Recent";
 import Starred from "@/components/AppBar/Menus/Starred";
 import Templates from "@/components/AppBar/Menus/Templates";
 import Workspaces from "@/components/AppBar/Menus/Workspaces";
-import ModeSelect from "@/components/ModeSelect";
+import ModeSelect from "@/components/ModeSelect/ModeSelect";
 import AppsIcon from "@mui/icons-material/Apps";
 import CloseIcon from "@mui/icons-material/Close";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
