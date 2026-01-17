@@ -12,7 +12,14 @@ import ListItemText from "@mui/material/ListItemText";
 
 function DrawerList({ toggleDrawer }) {
   return (
-    <Box sx={{ width: 250 }} role="presentation">
+    <Box
+      sx={{
+        width: 250,
+        bgcolor: (theme) =>
+          theme.palette.mode === "dark" ? "#2c3e50" : "#1565c0",
+      }}
+      role="presentation"
+    >
       <List>
         <WorkspacesDrawer />
 
@@ -32,12 +39,12 @@ function DrawerList({ toggleDrawer }) {
 
         <ListItemButton
           sx={{
-            color: "primary.main",
+            color: "white",
           }}
         >
           <ListItemIcon
             sx={{
-              color: "primary.main",
+              color: "white",
             }}
           >
             <AddIcon />

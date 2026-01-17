@@ -15,12 +15,12 @@ function StarredDrawer() {
       <ListItemButton
         onClick={toggle}
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <ListItemIcon
           sx={{
-            color: "primary.main",
+            color: "white",
           }}
         >
           <StarIcon />
@@ -33,7 +33,7 @@ function StarredDrawer() {
         timeout="auto"
         unmountOnExit
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <List component="div" disablePadding>

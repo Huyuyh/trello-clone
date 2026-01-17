@@ -15,12 +15,12 @@ function WorkspacesDrawer() {
       <ListItemButton
         onClick={toggle}
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <ListItemIcon
           sx={{
-            color: "primary.main",
+            color: "white",
           }}
         >
           <WorkspacesIcon />
@@ -33,7 +33,7 @@ function WorkspacesDrawer() {
         timeout="auto"
         unmountOnExit
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <List component="div" disablePadding>

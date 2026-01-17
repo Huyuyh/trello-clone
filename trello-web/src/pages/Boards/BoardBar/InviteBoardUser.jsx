@@ -7,10 +7,13 @@ function InviteBoardUser() {
     <AvatarGroup
       max={4}
       sx={{
+        gap: "10px",
+
         "& .MuiAvatar-root": {
           width: 34,
           height: 34,
           fontSize: 16,
+          border: "none",
         },
       }}
     >

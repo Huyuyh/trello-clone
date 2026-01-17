@@ -15,12 +15,12 @@ function TemplatesDrawer() {
       <ListItemButton
         onClick={toggle}
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <ListItemIcon
           sx={{
-            color: "primary.main",
+            color: "white",
           }}
         >
           <ArticleIcon />
@@ -33,7 +33,7 @@ function TemplatesDrawer() {
         timeout="auto"
         unmountOnExit
         sx={{
-          color: "primary.main",
+          color: "white",
         }}
       >
         <List component="div" disablePadding>

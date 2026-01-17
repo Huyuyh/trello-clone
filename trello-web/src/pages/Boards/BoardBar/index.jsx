@@ -10,13 +10,13 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 
 const CHIP_STYLE = {
-  color: "primary.main",
+  color: "white",
   bgcolor: "transparent",
   border: "none",
   paddingX: "5px",
   borderRadius: "4px",
   ".MuiSvgIcon-root": {
-    color: "primary.main",
+    color: "white",
   },
   "&:hover": {
     bgcolor: "primary.50",
@@ -35,7 +35,9 @@ function BoardBar() {
         gap: 2,
         paddingX: 2,
         overflowX: "auto",
-        borderTop: "1px solid #00bfa5",
+        borderBottom: "1px solid white",
+        bgcolor: (theme) =>
+          theme.palette.mode === "dark" ? "#34495e" : "#1976d2",
       }}
     >
       <Box
@@ -83,7 +85,17 @@ function BoardBar() {
           gap: 2,
         }}
       >
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: "white",
+            borderColor: "white",
+            "&:hover": {
+              borderColor: "white",
+            },
+          }}
+        >
           Invite
         </Button>
         <InviteBoardUser />
