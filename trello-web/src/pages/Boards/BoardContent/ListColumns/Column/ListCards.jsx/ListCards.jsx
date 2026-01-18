@@ -1,7 +1,7 @@
 import Card from "@/pages/Boards/BoardContent/ListColumns/Column/ListCards.jsx/Card/Card";
 import Box from "@mui/material/Box";
 
-function ListCards() {
+function ListCards({ cards }) {
   return (
     <Box
       sx={{
@@ -25,8 +25,8 @@ function ListCards() {
         },
       }}
     >
-      <Card />
-      <Card temporaryHideMedia={true} />
+      {!!cards?.length &&
+        cards.map((card) => <Card key={card._id} card={card} />)}
     </Box>
   );
 }

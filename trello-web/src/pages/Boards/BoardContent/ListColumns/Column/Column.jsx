@@ -1,5 +1,6 @@
 import { useAnchor } from "@/hooks/useAnchor";
 import ListCards from "@/pages/Boards/BoardContent/ListColumns/Column/ListCards.jsx/ListCards";
+import { mapOrder } from "@/utils/sorts";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import Cloud from "@mui/icons-material/Cloud";
 import ContentCopy from "@mui/icons-material/ContentCopy";
@@ -17,8 +18,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
-function Column() {
+function Column({ column }) {
   const { open, anchorEl, openMenu, closeMenu } = useAnchor();
+
+  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
 
   return (
     <>
@@ -52,7 +55,7 @@ function Column() {
               fontSize: "1rem",
             }}
           >
-            Column title
+            {column?.title}
           </Typography>
           <Box>
             <ExpandMoreIcon
@@ -115,7 +118,7 @@ function Column() {
         </Box>
 
         {/* List cards */}
-        <ListCards />
+        <ListCards cards={orderedCards} />
 
         {/* Footer */}
         <Box

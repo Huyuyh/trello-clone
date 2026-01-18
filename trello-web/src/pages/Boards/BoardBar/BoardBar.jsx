@@ -1,4 +1,5 @@
 import InviteBoardUser from "@/pages/Boards/BoardBar/InviteBoardUser";
+import { capitalizeFirstLetter } from "@/utils/formatters";
 import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import BoltIcon from "@mui/icons-material/Bolt";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -23,7 +24,7 @@ const CHIP_STYLE = {
   },
 };
 
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box
       sx={{
@@ -49,13 +50,13 @@ function BoardBar() {
         <Chip
           sx={CHIP_STYLE}
           icon={<DashboardIcon />}
-          label="HuyPham"
+          label={board?.title}
           clickable
         />
         <Chip
           sx={CHIP_STYLE}
           icon={<VpnLockIcon />}
-          label="Public/Private Workspace"
+          label={capitalizeFirstLetter(board?.type)}
           clickable
         />
         <Chip
