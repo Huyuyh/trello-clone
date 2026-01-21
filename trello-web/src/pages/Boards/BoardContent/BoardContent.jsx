@@ -1,6 +1,7 @@
 import Column from "@/pages/Boards/BoardContent/ListColumns/Column/Column";
 import Card from "@/pages/Boards/BoardContent/ListColumns/Column/ListCards.jsx/Card/Card";
 import ListColumns from "@/pages/Boards/BoardContent/ListColumns/ListColumns";
+import { generatePlaceholderCard } from "@/utils/formatters";
 import { mapOrder } from "@/utils/sorts";
 import {
   closestCorners,
@@ -15,7 +16,7 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import Box from "@mui/material/Box";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 
 const ACTIVE_DRAG_ITEM_TYPE = {
@@ -81,8 +82,6 @@ function BoardContent({ board }) {
 
       let newCardIndex;
 
-      console.log(active);
-
       const isBelowOverItem =
         active.rect.current.translated &&
         active.rect.current.translated.top > over.rect.top + over.rect.height;
@@ -105,6 +104,10 @@ function BoardContent({ board }) {
           (card) => card._id !== activeDraggingCardId,
         );
 
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)];
+        }
+
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           (card) => card._id,
         );
@@ -123,6 +126,10 @@ function BoardContent({ board }) {
           newCardIndex,
           0,
           rebuild_activeDraggingCardData,
+        );
+
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (c) => !c.FE_PlaceholderCard,
         );
 
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
