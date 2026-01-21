@@ -21,12 +21,20 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
 function Column({ column }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: column._id, data: { ...column } });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: column._id, data: { ...column } });
   const dndKitColumnStyles = {
     // touchAction: "none",
     transform: CSS.Translate.toString(transform),
     transition,
+    height: "100%",
+    opacity: isDragging ? 0.5 : undefined,
   };
 
   const { open, anchorEl, openMenu, closeMenu } = useAnchor();
@@ -34,11 +42,8 @@ function Column({ column }) {
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
 
   return (
-    <>
+    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
-        ref={setNodeRef}
-        style={dndKitColumnStyles}
-        {...attributes}
         {...listeners}
         sx={{
           minWidth: "300px",
@@ -148,7 +153,7 @@ function Column({ column }) {
           <DragHandleIcon sx={{ cursor: "pointer" }} />
         </Box>
       </Box>
-    </>
+    </div>
   );
 }
 
