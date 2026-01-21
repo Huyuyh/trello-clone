@@ -65,6 +65,75 @@ function BoardContent({ board }) {
     );
   };
 
+  const moveCardBetweenDifferentColumns = ({
+    overColumn,
+    overCardId,
+    active,
+    over,
+    activeColumn,
+    activeDraggingCardId,
+    activeDraggingCardData,
+  }) => {
+    setOrderedColumns((prev) => {
+      const overCardIndex = overColumn?.cards?.findIndex(
+        (card) => card._id === overCardId,
+      );
+
+      let newCardIndex;
+
+      console.log(active);
+
+      const isBelowOverItem =
+        active.rect.current.translated &&
+        active.rect.current.translated.top > over.rect.top + over.rect.height;
+      const modifier = isBelowOverItem ? 1 : 0;
+      newCardIndex =
+        overCardIndex >= 0
+          ? overCardIndex + modifier
+          : overColumn?.cards?.length + 1;
+
+      const nextColumns = cloneDeep(prev);
+      const nextActiveColumn = nextColumns.find(
+        (column) => column._id === activeColumn._id,
+      );
+      const nextOverColumn = nextColumns.find(
+        (column) => column._id === overColumn._id,
+      );
+
+      if (nextActiveColumn) {
+        nextActiveColumn.cards = nextActiveColumn.cards.filter(
+          (card) => card._id !== activeDraggingCardId,
+        );
+
+        nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
+          (card) => card._id,
+        );
+      }
+      if (nextOverColumn) {
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (card) => card._id !== activeDraggingCardId,
+        );
+
+        const rebuild_activeDraggingCardData = {
+          ...activeDraggingCardData,
+          columnId: nextOverColumn._id,
+        };
+
+        nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+          newCardIndex,
+          0,
+          rebuild_activeDraggingCardData,
+        );
+
+        nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
+          (card) => card._id,
+        );
+      }
+
+      return nextColumns;
+    });
+  };
+
   const handleDragStart = (event) => {
     // console.log("Handle drag start", event);
 
@@ -104,56 +173,14 @@ function BoardContent({ board }) {
     if (!activeColumn || !overColumn) return;
 
     if (activeColumn._id !== overColumn._id) {
-      setOrderedColumns((prev) => {
-        const overCardIndex = overColumn?.cards?.findIndex(
-          (card) => card._id === overCardId,
-        );
-
-        let newCardIndex;
-
-        const isBelowOverItem =
-          active.rect.current.translated &&
-          active.rect.current.translated.top > over.rect.top + over.rect.height;
-        const modifier = isBelowOverItem ? 1 : 0;
-        newCardIndex =
-          overCardIndex >= 0
-            ? overCardIndex + modifier
-            : overColumn?.cards?.length + 1;
-
-        const nextColumns = cloneDeep(prev);
-        const nextActiveColumn = nextColumns.find(
-          (column) => column._id === activeColumn._id,
-        );
-        const nextOverColumn = nextColumns.find(
-          (column) => column._id === overColumn._id,
-        );
-
-        if (nextActiveColumn) {
-          nextActiveColumn.cards = nextActiveColumn.cards.filter(
-            (card) => card._id !== activeDraggingCardId,
-          );
-
-          nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
-            (card) => card._id,
-          );
-        }
-        if (nextOverColumn) {
-          nextOverColumn.cards = nextOverColumn.cards.filter(
-            (card) => card._id !== activeDraggingCardId,
-          );
-
-          nextOverColumn.cards = nextOverColumn.cards.toSpliced(
-            newCardIndex,
-            0,
-            activeDraggingCardData,
-          );
-
-          nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
-            (card) => card._id,
-          );
-        }
-
-        return nextColumns;
+      moveCardBetweenDifferentColumns({
+        overColumn,
+        overCardId,
+        active,
+        over,
+        activeColumn,
+        activeDraggingCardId,
+        activeDraggingCardData,
       });
     }
   };
@@ -178,11 +205,20 @@ function BoardContent({ board }) {
       if (!activeColumn || !overColumn) return;
 
       if (oldColumnWhenDraggingCard._id !== overColumn._id) {
+        moveCardBetweenDifferentColumns({
+          overColumn,
+          overCardId,
+          active,
+          over,
+          activeColumn,
+          activeDraggingCardId,
+          activeDraggingCardData,
+        });
       } else {
-        const oldCardIndex = oldColumnWhenDraggingCard?.card?.findIndex(
+        const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
           (c) => c._id === activeDragItemId,
         );
-        const newCardIndex = oldColumnWhenDraggingCard?.card?.findIndex(
+        const newCardIndex = overColumn?.cards?.findIndex(
           (c) => c._id === overCardId,
         );
 
@@ -191,6 +227,7 @@ function BoardContent({ board }) {
           oldCardIndex,
           newCardIndex,
         );
+        const dndOrderedCardIds = dndOrderedCards.map((card) => card._id);
 
         setOrderedColumns((prevColumns) => {
           const nextColumns = cloneDeep(prevColumns);
@@ -200,7 +237,7 @@ function BoardContent({ board }) {
           );
 
           targetColumn.cards = dndOrderedCards;
-          targetColumn.cardOrderIds = dndOrderedCards.map((card) => card._id);
+          targetColumn.cardOrderIds = dndOrderedCardIds;
 
           return nextColumns;
         });

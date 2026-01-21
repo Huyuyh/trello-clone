@@ -34,8 +34,6 @@ function Card({ card }) {
       card?.attachments?.length
     );
 
-  console.log(card.cover);
-
   return (
     <MuiCard
       ref={setNodeRef}
