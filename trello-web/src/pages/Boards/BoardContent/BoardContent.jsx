@@ -3,6 +3,7 @@ import Card from "@/pages/Boards/BoardContent/ListColumns/Column/ListCards.jsx/C
 import ListColumns from "@/pages/Boards/BoardContent/ListColumns/ListColumns";
 import { mapOrder } from "@/utils/sorts";
 import {
+  closestCorners,
   defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
@@ -56,6 +57,12 @@ function BoardContent({ board }) {
     setOrderedColumns(mapOrder(board.columns, board.columnOrderIds, "_id"));
   }, [board]);
 
+  const findColumnByCardId = (cardId) => {
+    return orderedColumns.find((column) =>
+      column?.cards?.map((card) => card._id)?.includes(cardId),
+    );
+  };
+
   const handleDragStart = (event) => {
     // console.log("Handle drag start", event);
 
@@ -66,12 +73,6 @@ function BoardContent({ board }) {
         : ACTIVE_DRAG_ITEM_TYPE.COLUMN,
     );
     setActiveDragItemData(event?.active?.data?.current);
-  };
-
-  const findColumnByCardId = (cardId) => {
-    return orderedColumns.find((column) =>
-      column?.cards?.map((card) => card._id)?.includes(cardId),
-    );
   };
 
   const handleDragOver = (event) => {
@@ -188,6 +189,7 @@ function BoardContent({ board }) {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}

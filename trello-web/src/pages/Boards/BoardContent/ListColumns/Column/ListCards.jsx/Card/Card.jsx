@@ -34,6 +34,8 @@ function Card({ card }) {
       card?.attachments?.length
     );
 
+  console.log(card.cover);
+
   return (
     <MuiCard
       ref={setNodeRef}
@@ -46,7 +48,7 @@ function Card({ card }) {
         overflow: "unset",
       }}
     >
-      {card?.cover && <CardMedia height="140" image={card.cover} />}
+      {card?.cover && <CardMedia sx={{ height: 140 }} image={card?.cover} />}
 
       <CardContent
         sx={{
